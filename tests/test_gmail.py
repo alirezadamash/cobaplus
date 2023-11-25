@@ -6,7 +6,7 @@ from pandas import DataFrame
 from utils.gmail.transmitter import GMailTransmitter
 
 SERVICE_ACCOUNT = 'alirezadamash@gmail.com'
-PASSWORD = '@aA864300726@alireza'
+PASSWORD = ''
 
 
 class TestGMail(TestCase):
