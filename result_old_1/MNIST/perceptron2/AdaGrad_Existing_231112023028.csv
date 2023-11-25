@@ -1,6 +1,0 @@
-optimizer,optimizer_parameters,epoch,time,train_loss,train_accuracy,test_loss,test_accuracy
-AdaGrad_Existing,"{'lr': 0.001, 'lr_decay': 0, 'eps': 1e-10, 'weight_decay': 0, 'initial_accumulator_value': 0, 'foreach': None, 'maximize': False, 'differentiable': False}",1,18.8461971282959,0.5080511735955874,0.85805,0.353983892074313,0.8978
-AdaGrad_Existing,"{'lr': 0.001, 'lr_decay': 0, 'eps': 1e-10, 'weight_decay': 0, 'initial_accumulator_value': 0, 'foreach': None, 'maximize': False, 'differentiable': False}",2,16.847836017608643,0.33760858249664305,0.9008666666666667,0.30174378063767765,0.9146
-AdaGrad_Existing,"{'lr': 0.001, 'lr_decay': 0, 'eps': 1e-10, 'weight_decay': 0, 'initial_accumulator_value': 0, 'foreach': None, 'maximize': False, 'differentiable': False}",3,16.201436281204224,0.30117172046502433,0.91375,0.2796423332259868,0.9187
-AdaGrad_Existing,"{'lr': 0.001, 'lr_decay': 0, 'eps': 1e-10, 'weight_decay': 0, 'initial_accumulator_value': 0, 'foreach': None, 'maximize': False, 'differentiable': False}",4,15.510982990264893,0.27501518712242445,0.9209833333333334,0.2585472690280729,0.9246
-AdaGrad_Existing,"{'lr': 0.001, 'lr_decay': 0, 'eps': 1e-10, 'weight_decay': 0, 'initial_accumulator_value': 0, 'foreach': None, 'maximize': False, 'differentiable': False}",5,15.264801025390625,0.25914939146538574,0.9251333333333334,0.24687105139640098,0.9287

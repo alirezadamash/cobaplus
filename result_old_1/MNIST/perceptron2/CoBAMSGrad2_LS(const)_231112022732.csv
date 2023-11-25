@@ -1,6 +1,0 @@
-optimizer,optimizer_parameters,epoch,time,train_loss,train_accuracy,test_loss,test_accuracy
-CoBAMSGrad2_LS(const),"{'period': 1875, 'lr': 0.001, 'betas': (0.9, 0.999), 'eps': 1e-08, 'weight_decay': 0.0, 'amsgrad': True, 'cg_type': 'LS', 'lam': 2.0, 'a': 1, 'm': 1}",1,22.331794023513794,0.2822319032187263,0.9159833333333334,0.18269669642384065,0.9462
-CoBAMSGrad2_LS(const),"{'period': 1875, 'lr': 0.001, 'betas': (0.9, 0.999), 'eps': 1e-08, 'weight_decay': 0.0, 'amsgrad': True, 'cg_type': 'LS', 'lam': 2.0, 'a': 1, 'm': 1}",2,37.101998805999756,0.1589367942960312,0.954,0.15598245574118266,0.9582
-CoBAMSGrad2_LS(const),"{'period': 1875, 'lr': 0.001, 'betas': (0.9, 0.999), 'eps': 1e-08, 'weight_decay': 0.0, 'amsgrad': True, 'cg_type': 'LS', 'lam': 2.0, 'a': 1, 'm': 1}",3,37.13402485847473,0.13005819375213856,0.9624666666666667,0.15689408984591294,0.9561
-CoBAMSGrad2_LS(const),"{'period': 1875, 'lr': 0.001, 'betas': (0.9, 0.999), 'eps': 1e-08, 'weight_decay': 0.0, 'amsgrad': True, 'cg_type': 'LS', 'lam': 2.0, 'a': 1, 'm': 1}",4,40.1250262260437,0.1115863855743936,0.96735,0.14788134655933657,0.9609
-CoBAMSGrad2_LS(const),"{'period': 1875, 'lr': 0.001, 'betas': (0.9, 0.999), 'eps': 1e-08, 'weight_decay': 0.0, 'amsgrad': True, 'cg_type': 'LS', 'lam': 2.0, 'a': 1, 'm': 1}",5,39.301899909973145,0.10185164596351484,0.97005,0.1353938582687988,0.9614
