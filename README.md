@@ -12,17 +12,4 @@ usage: main.py [-h] [-e EXPERIMENT] [-m MODEL_NAME] [-d DATA_DIR] [-me MAX_EPOCH
 ```
 
 
-- To send CSV by Gmail, you need to make or edit utils/gmail/account.json  
-  ```json
-  {
-    "service_account": "GOOGLE_ACCOUNT",
-    "password": "PASSWORD"
-  }
-  ```
-  
-  and utils/gmail/client_secret.json 
-  - https://developers.google.com/gmail/api/  
-  - https://console.cloud.google.com/
-
-
 Reference : https://github.com/iiduka-researches/202009-coba/
