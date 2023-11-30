@@ -84,7 +84,7 @@ class ExperimentMNIST(BaseExperiment):
             y_score = np.nan_to_num(y_score)
         
         acc = accuracy_score(y_true, y_pred)
-        precision = precision_score(y_true, y_pred, average='macro')
+        precision = precision_score(y_true, y_pred, average='macro', zero_division=0)
         recall = recall_score(y_true, y_pred, average='macro')
         f1 = f1_score(y_true, y_pred, average='macro')
         mcc = matthews_corrcoef(y_true, y_pred)
