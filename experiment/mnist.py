@@ -77,6 +77,12 @@ class ExperimentMNIST(BaseExperiment):
         y_true = np.array(y_true)
         y_pred = np.array(y_pred)
         y_score = np.array(y_score)
+        
+        # Check if y_score contains NaN values
+        if np.isnan(y_score).any():
+            # Replace NaN values with a numerical value (e.g., 0)
+            y_score = np.nan_to_num(y_score)
+        
         acc = accuracy_score(y_true, y_pred)
         precision = precision_score(y_true, y_pred, average='macro')
         recall = recall_score(y_true, y_pred, average='macro')
