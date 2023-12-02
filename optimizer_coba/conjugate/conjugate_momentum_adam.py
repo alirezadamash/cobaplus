@@ -98,7 +98,7 @@ class ConjugateMomentumAdam(Optimizer):
                     state['m_buffer'] = exp_avg.clone()
                     state['conjugate_momentum'] = -exp_avg + group['m'] * cg_param * d_buf / (state['step'] ** group['a'])
 
-                exp_avg_sq.mul_(beta2).addcmul_(state['conjugate_momentum'], state['conjugate_momentum'], value=1 - beta2)
+                exp_avg_sq.mul_(beta2).addcmul_(grad, grad, value=1 - beta2)
                 if amsgrad:
                     # Maintains the maximum of all 2nd moment running avg. till now
                     torch.max(max_exp_avg_sq, exp_avg_sq, out=max_exp_avg_sq)

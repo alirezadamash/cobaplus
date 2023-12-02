@@ -3,12 +3,14 @@ import math
 import torch
 
 from torch.optim.optimizer import Optimizer
-from optimizer.conjugate.conjugate_param import get_cg_param_fn
+from optimizer.conjugate.conjugate_param2 import get_cg_param_fn
 
 
-class ConjugateMomentumAdam(Optimizer):
-    def __init__(self, params, lr=1e-3, betas=(0.9, 0.999), eps=1e-8, weight_decay=0.0, amsgrad=False,
+class CoBA(Optimizer):
+    def __init__(self, params, period: int, lr=1e-3, betas=(0.9, 0.999), eps=1e-8, weight_decay=0.0, amsgrad=False,
                  cg_type='HS', lam=2.0, m=1e-3, a=1+1e-8) -> None:
+        if not 0 <= period:
+            raise ValueError("Invalid period: {}".format(period))
         if not 0.0 <= lr:
             raise ValueError("Invalid learning rate: {}".format(lr))
         if not 0.0 <= eps:
@@ -23,18 +25,15 @@ class ConjugateMomentumAdam(Optimizer):
             raise ValueError("Invalid m value: {}".format(m))
         if not 1.0 <= a:
             raise ValueError("Invalid a value: {}".format(a))
-        defaults = dict(lr=lr, betas=betas, eps=eps, weight_decay=weight_decay, amsgrad=amsgrad,
+        defaults = dict(period=period, lr=lr, betas=betas, eps=eps, weight_decay=weight_decay, amsgrad=amsgrad,
                         cg_type=cg_type, lam=lam, a=a, m=m)
-        super(ConjugateMomentumAdam, self).__init__(params, defaults)
-
+        super(CoBA, self).__init__(params, defaults)
 
     def __setstate__(self, state):
-        super(ConjugateMomentumAdam, self).__setstate__(state)
+        super(CoBA, self).__setstate__(state)
         for group in self.param_groups:
             group.setdefault('amsgrad', False)
             group.setdefault('cg_type', 'HS')
-            group.setdefault('m', 1e-3)
-            group.setdefault('a', 1+1e-5)
 
     @torch.no_grad()
     def step(self, closure=None):
@@ -50,7 +49,7 @@ class ConjugateMomentumAdam(Optimizer):
 
         for group in self.param_groups:
             cg_param_fn = get_cg_param_fn(group['cg_type'])
-            for i, p in enumerate(group['params']):
+            for p in group['params']:
                 if p.grad is None:
                     continue
                 grad = p.grad
@@ -70,8 +69,8 @@ class ConjugateMomentumAdam(Optimizer):
                     if amsgrad:
                         # Maintains max of all exp. moving avg. of sq. grad. values
                         state['max_exp_avg_sq'] = torch.zeros_like(p)
-                    state['m_buffer'] = None
-                    state['conjugate_momentum'] = None
+                    state['stochastic_cg'] = None
+                    state['past_grad'] = None
 
                 exp_avg, exp_avg_sq = state['exp_avg'], state['exp_avg_sq']
                 if amsgrad:
@@ -86,19 +85,17 @@ class ConjugateMomentumAdam(Optimizer):
                     # Decay the first and second moment running average coefficient
                     grad = grad.add(p, alpha=group['weight_decay'])
 
-                exp_avg.mul_(beta1).add_(grad, alpha=1 - beta1)
-
-                if state['conjugate_momentum'] is None:
-                    state['m_buffer'] = exp_avg.clone()
-                    state['conjugate_momentum'] = (-exp_avg).clone()
+                if state['stochastic_cg'] is None:
+                    state['past_grad'] = grad.clone()
+                    state['stochastic_cg'] = (-grad).clone()
                 else:
-                    m_buf = state['m_buffer']
-                    d_buf = state['conjugate_momentum']
-                    cg_param = cg_param_fn(exp_avg, m_buf, d_buf, group)
-                    state['m_buffer'] = exp_avg.clone()
-                    state['conjugate_momentum'] = -exp_avg + group['m'] * cg_param * d_buf / (state['step'] ** group['a'])
+                    scg = state['stochastic_cg']
+                    cg_param = cg_param_fn(grad, state['past_grad'], scg, group)
+                    state['stochastic_cg'] = -grad + group['m'] * cg_param * scg / (state['step'] ** group['a'])
+                    state['past_grad'] = grad.clone()
 
-                exp_avg_sq.mul_(beta2).addcmul_(state['conjugate_momentum'], state['conjugate_momentum'], value=1 - beta2)
+                exp_avg.mul_(beta1).add_(state['stochastic_cg'], alpha=1 - beta1)
+                exp_avg_sq.mul_(beta2).addcmul_(grad, grad, value=1 - beta2)
                 if amsgrad:
                     # Maintains the maximum of all 2nd moment running avg. till now
                     torch.max(max_exp_avg_sq, exp_avg_sq, out=max_exp_avg_sq)
@@ -111,7 +108,6 @@ class ConjugateMomentumAdam(Optimizer):
                     bias_correction2 = 1 - beta2 ** state['step']
                     denom = (exp_avg_sq.sqrt() / math.sqrt(bias_correction2)).add_(group['eps'])
                     step_size = group['lr'] / bias_correction1
-
-                p.addcdiv_(state['conjugate_momentum'], denom, value=step_size)
+                p.addcdiv_(exp_avg, denom, value=step_size)
 
         return loss

@@ -2,8 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load the data
-cobaplus_data = pd.read_csv('result/MNIST/resnet/CoBAMSGrad2_FR_231201214005.csv')
-coba_data = pd.read_csv('result_coba/MNIST/resnet/CoBAMSGrad2_FR_231125193417.csv')
+cobaplus_data = pd.read_csv('result/MNIST/resnet/CoBAMSGrad2_LS_231201224440.csv')
+coba_data = pd.read_csv('result_coba/MNIST/resnet/CoBAMSGrad2_LS_231129210613.csv')
 
 # Extract the f1 score every 100 epochs
 cobaplus_f1 = cobaplus_data['test_f1']

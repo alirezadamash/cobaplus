@@ -17,7 +17,7 @@ class ExperimentIMDb(BaseExperiment):
         # DL the Dataset and split
         self.text = Field(sequential=True, fix_length=80, batch_first=True, lower=True)
         self.label = LabelField(sequential=False)
-        train_dataset, test_dataset = IMDB(root=self.data_dir)
+        train_dataset, test_dataset = IMDB.splits(self.text, self.label, root=self.data_dir)
         self.train_data, self.test_data = train_dataset
 
         # build the vocabulary
