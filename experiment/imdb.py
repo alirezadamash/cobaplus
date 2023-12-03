@@ -1,3 +1,4 @@
+import os
 from typing import Tuple, Optional
 
 import torch
@@ -17,8 +18,7 @@ class ExperimentIMDb(BaseExperiment):
         # DL the Dataset and split
         self.text = Field(sequential=True, fix_length=80, batch_first=True, lower=True)
         self.label = LabelField(sequential=False)
-        train_dataset, test_dataset = IMDB.splits(self.text, self.label, root=self.data_dir)
-        self.train_data, self.test_data = train_dataset
+        self.train_data, self.test_data = IMDB.splits(root=self.data_dir, text_field=self.text, label_field=self.label)
 
         # build the vocabulary
         self.text.build_vocab(self.train_data, max_size=25000)
