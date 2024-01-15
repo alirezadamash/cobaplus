@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load the data
-cobaplus_data = pd.read_csv('result/MNIST/resnet/CoBAMSGrad2_LS_231201224440.csv')
+cobaplus_data = pd.read_csv('result/MNIST/resnet/CoBAMSGrad2_PRP_231201215547.csv')
 coba_data = pd.read_csv('result/MNIST/resnet/Adam_Existing_231201210940.csv')
 
 # Extract the f1 score every 100 epochs
@@ -13,7 +13,7 @@ coba_f1 = coba_data['test_aupr']
 plt.figure()
 
 # Plot the f1 scores
-plt.plot(cobaplus_f1, label='Propoesed_Method_FR')
+plt.plot(cobaplus_f1, label='Proposed_CG_Optimizer_PRP')
 plt.plot(coba_f1, label='Adam')
 
 # Add labels and title
