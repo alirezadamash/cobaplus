@@ -11,5 +11,4 @@ usage: main.py [-h] [-e EXPERIMENT] [-m MODEL_NAME] [-d DATA_DIR] [-me MAX_EPOCH
 
 ```
 
-
 Reference : https://github.com/iiduka-researches/202009-coba/
