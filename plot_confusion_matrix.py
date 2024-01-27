@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 import ast
 
 # Load the csv files
-df1 = pd.read_csv('result/MNIST/resnet/Adam_Existing_231125172257.csv')
-df2 = pd.read_csv('result/MNIST/resnet/CoBAMSGrad2_FR_231125193417.csv')
+df1 = pd.read_csv('result/MNIST/resnet/Adam_Existing_231201210940.csv')
+df2 = pd.read_csv('result/MNIST/resnet/CoBAMSGrad2_FR_231201214005.csv')
 
 # Create a directory to save the plots
 if not os.path.exists('Figures/confusion_matrix'):
